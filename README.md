@@ -2,7 +2,7 @@
 
 ## Usage
 
-```
+```xml
     <build>
         <plugins>
             <plugin>
@@ -42,7 +42,7 @@
 Release 1.0.7 adds support for `persistence.xml` files located in external dependencies. If this is the case use the 
 `persistenceXMLGroupId`, `persistenceXMLArtifactId` and `persistenceXMLVersion` parameters in combination with `persistenceXMLLocation`.
 
-```
+```xml
     <plugin>
         <artifactId>eclipselink-staticweave-maven-plugin</artifactId>
         <groupId>au.com.alderaan</groupId>
@@ -78,7 +78,7 @@ Release 1.0.4 adds support for working around an issue that can affect Eclipseli
 classloading and ASM. In certain scenarios, the weaver is unable to load classes and fails to weave 
 correctly. To enable this workaround set includeProjectClasspath to true in your configuration:
 
-```
+```xml
     <plugin>
         <artifactId>eclipselink-staticweave-maven-plugin</artifactId>
         <groupId>au.com.alderaan</groupId>
@@ -110,7 +110,7 @@ correctly. To enable this workaround set includeProjectClasspath to true in your
 Release 1.0.3 adds support for specifying the location/name of the persistence.xml file. 
 E.g. `META-INF/my-persistence.xml`. 
 
-```
+```xml
     <plugin>
     ...
         <configuration>
@@ -126,7 +126,7 @@ Release 1.0.2 of the plugin has been updated to work correctly with Eclipselink 
 2.2.X stick with version 1.0.1 of the plugin. For 2.3.X versions of Eclipselink other than 2.3.2, simply 
 override with a `<dependencies>` block in the plugin config. e.g.
 
-```
+```xml
     <build>
         <plugins>
             <plugin>
@@ -160,7 +160,7 @@ override with a `<dependencies>` block in the plugin config. e.g.
 If you do this, remember that Eclipselink dependencies are not available in Central so you will 
 probably need to add a reference to the Eclipselink Maven repo as well. e.g.
 
-```
+```xml
     <repositories>
         <repository>
             <id>eclipselink</id>
