@@ -16,6 +16,9 @@ package au.com.alderaan.eclipselink.mojo;
  * limitations under the License.
  */
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Validate;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -33,6 +36,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -45,6 +49,7 @@ import java.util.Set;
  * @requiresDependencyResolution compile
  */
 public class EclipselinkStaticWeaveMojo extends AbstractMojo {
+
     /**
      * @parameter expression="${weave.persistenceInfo}"
      */
@@ -54,6 +59,21 @@ public class EclipselinkStaticWeaveMojo extends AbstractMojo {
      * @parameter expression="${weave.persistenceXMLLocation}"
      */
     private String persistenceXMLLocation;
+
+    /**
+     * @parameter expression="${weave.persistenceXMLGroupId}"
+     */
+    private String persistenceXMLGroupId;
+
+    /**
+     * @parameter expression="${weave.persistenceXMLArtifactId}"
+     */
+    private String persistenceXMLArtifactId;
+
+    /**
+     * @parameter expression="${weave.persistenceXMLVersion}"
+     */
+    private String persistenceXMLVersion;
 
     /**
      * @parameter expression="${project.build.outputDirectory}"
@@ -117,6 +137,9 @@ public class EclipselinkStaticWeaveMojo extends AbstractMojo {
             }
 
             if (persistenceXMLLocation != null) {
+
+                importPersistenceXMLFromDependency();
+
                 weave.setPersistenceXMLLocation(persistenceXMLLocation);
             }
 
@@ -124,13 +147,79 @@ public class EclipselinkStaticWeaveMojo extends AbstractMojo {
             weave.setLogLevel(getLogLevel());
             weave.performWeaving();
 
-        } catch (MalformedURLException e) {
-            throw new MojoExecutionException("Failed", e);
-        } catch (IOException e) {
-            throw new MojoExecutionException("Failed", e);
-        } catch (URISyntaxException e) {
+        } catch (IOException | URISyntaxException e) {
             throw new MojoExecutionException("Failed", e);
         }
+    }
+
+    private void importPersistenceXMLFromDependency() throws MojoExecutionException {
+
+        Validate.notBlank(persistenceXMLLocation);
+        Validate.notNull(project);
+
+        boolean hasGroupId = StringUtils.isNotBlank(persistenceXMLGroupId);
+        boolean hasArtifactId = StringUtils.isNotBlank(persistenceXMLArtifactId);
+        boolean hasVersion = StringUtils.isNotBlank(persistenceXMLVersion);
+
+        if (hasGroupId && hasArtifactId && hasVersion) {
+
+            Iterator artifactIterator = project.getArtifacts().iterator();
+
+            while (artifactIterator.hasNext()) {
+
+                Object obj = artifactIterator.next();
+                Validate.isInstanceOf(Artifact.class, obj);
+
+                Artifact artifact = (Artifact) obj;
+
+                boolean isSameGroupId = artifact.getGroupId().equalsIgnoreCase(
+                        persistenceXMLGroupId
+                );
+
+                boolean isSameArtifactId = artifact.getArtifactId().equalsIgnoreCase(
+                        persistenceXMLArtifactId
+                );
+
+                boolean isSameVersion = artifact.getVersion().equalsIgnoreCase(
+                        persistenceXMLVersion
+                );
+
+                if (isSameGroupId && isSameArtifactId && isSameVersion) {
+
+                    getFileFromArtifact(artifact);
+
+                    return;
+                }
+
+            }
+        }
+
+    }
+
+    private void getFileFromArtifact(Artifact artifact) throws MojoExecutionException {
+
+        try {
+
+            URLClassLoader classLoader = new URLClassLoader(
+                    new URL[]{
+                            artifact.getFile().toURI().toURL()
+                    }
+            );
+
+            File outputFile = new File(
+                    project.getBuild().getOutputDirectory(),
+                    persistenceXMLLocation
+            );
+
+            FileUtils.copyInputStreamToFile(
+                    classLoader.getResourceAsStream(persistenceXMLLocation),
+                    outputFile
+            );
+
+        } catch (Exception e) {
+            throw new MojoExecutionException("Failed", e);
+        }
+
     }
 
     private int getLogLevel() {
@@ -162,6 +251,7 @@ public class EclipselinkStaticWeaveMojo extends AbstractMojo {
         }
         return urls.toArray(new URL[urls.size()]);
     }
+
 
     public String getPersistenceInfo() {
         return persistenceInfo;
@@ -209,5 +299,29 @@ public class EclipselinkStaticWeaveMojo extends AbstractMojo {
 
     public void setIncludeProjectClasspath(boolean includeProjectClasspath) {
         this.includeProjectClasspath = includeProjectClasspath;
+    }
+
+    public String getPersistenceXMLGroupId() {
+        return persistenceXMLGroupId;
+    }
+
+    public void setPersistenceXMLGroupId(String persistenceXMLGroupId) {
+        this.persistenceXMLGroupId = persistenceXMLGroupId;
+    }
+
+    public String getPersistenceXMLArtifactId() {
+        return persistenceXMLArtifactId;
+    }
+
+    public void setPersistenceXMLArtifactId(String persistenceXMLArtifactId) {
+        this.persistenceXMLArtifactId = persistenceXMLArtifactId;
+    }
+
+    public String getPersistenceXMLVersion() {
+        return persistenceXMLVersion;
+    }
+
+    public void setPersistenceXMLVersion(String persistenceXMLVersion) {
+        this.persistenceXMLVersion = persistenceXMLVersion;
     }
 }
