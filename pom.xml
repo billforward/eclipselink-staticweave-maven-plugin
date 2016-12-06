@@ -1,11 +1,15 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
-    <groupId>au.com.alderaan</groupId>
+
+    <groupId>billforce.billing</groupId>
     <artifactId>eclipselink-staticweave-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.6</version>
+
     <name>eclipselink-staticweave-maven-plugin Maven Mojo</name>
-    <url>http://code.google.com/p/eclipselink-staticweave-maven-plugin/</url>
+    <url>https://github.com/billforward/eclipselink-staticweave-maven-plugin/</url>
     <description>Maven Plugin for Eclipselink Static Weaving</description>
 
     <parent>
@@ -16,13 +20,8 @@
 
     <developers>
         <developer>
-            <name>Craig Day</name>
-            <email>craigday@gmail.com</email>
-            <url>https://profiles.google.com/craigday</url>
-        </developer>
-        <developer>
-            <name>Tim Cole</name>
-            <email>timothy.j.cole@gmail.com</email>
+            <name>Lukasz Kwasek</name>
+            <email>lukasz@billforward.net</email>
         </developer>
     </developers>
 
@@ -33,12 +32,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
-    <scm>
-        <url>http://code.google.com/p/eclipselink-staticweave-maven-plugin/source/browse/</url>
-        <connection>scm:svn:https://eclipselink-staticweave-maven-plugin.googlecode.com/svn/trunk/</connection>
-        <developerConnection>scm:svn:https://eclipselink-staticweave-maven-plugin.googlecode.com/svn/trunk/</developerConnection>
-    </scm>
 
     <properties>
         <maven.version>2.0.9</maven.version>
@@ -91,27 +84,4 @@
         </repository>
     </repositories>
 
-    <profiles>
-        <!-- Signing with gpg -->
-        <!-- Sign the artifacts by calling mvn -P sign [..] -->
-        <profile>
-            <id>sign</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
