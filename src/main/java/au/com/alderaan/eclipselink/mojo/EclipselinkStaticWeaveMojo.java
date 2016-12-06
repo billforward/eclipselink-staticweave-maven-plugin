@@ -92,6 +92,7 @@ public class EclipselinkStaticWeaveMojo extends AbstractMojo {
 
     public void execute() throws MojoExecutionException {
         try {
+
             if (includeProjectClasspath) {
                 // Thread context class loader is the ClassRealm for this plugin.
                 ClassRealm c = (ClassRealm) Thread.currentThread().getContextClassLoader();
@@ -105,19 +106,24 @@ public class EclipselinkStaticWeaveMojo extends AbstractMojo {
 
             StaticWeaveProcessor weave = new StaticWeaveProcessor(source, target);
             URL[] urls = buildClassPath();
+
             if (urls.length > 0) {
                 URLClassLoader classLoader = new URLClassLoader(urls, Thread.currentThread().getContextClassLoader());
                 weave.setClassLoader(classLoader);
             }
+
             if (persistenceInfo != null) {
                 weave.setPersistenceInfo(persistenceInfo);
             }
+
             if (persistenceXMLLocation != null) {
                 weave.setPersistenceXMLLocation(persistenceXMLLocation);
             }
+
             weave.setLog(new PrintWriter(System.out));
             weave.setLogLevel(getLogLevel());
             weave.performWeaving();
+
         } catch (MalformedURLException e) {
             throw new MojoExecutionException("Failed", e);
         } catch (IOException e) {
@@ -155,5 +161,53 @@ public class EclipselinkStaticWeaveMojo extends AbstractMojo {
             urls.add(a.getFile().toURI().toURL());
         }
         return urls.toArray(new URL[urls.size()]);
+    }
+
+    public String getPersistenceInfo() {
+        return persistenceInfo;
+    }
+
+    public void setPersistenceInfo(String persistenceInfo) {
+        this.persistenceInfo = persistenceInfo;
+    }
+
+    public String getPersistenceXMLLocation() {
+        return persistenceXMLLocation;
+    }
+
+    public void setPersistenceXMLLocation(String persistenceXMLLocation) {
+        this.persistenceXMLLocation = persistenceXMLLocation;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+    public MavenProject getProject() {
+        return project;
+    }
+
+    public void setProject(MavenProject project) {
+        this.project = project;
+    }
+
+    public boolean isIncludeProjectClasspath() {
+        return includeProjectClasspath;
+    }
+
+    public void setIncludeProjectClasspath(boolean includeProjectClasspath) {
+        this.includeProjectClasspath = includeProjectClasspath;
     }
 }
