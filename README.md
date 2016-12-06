@@ -8,7 +8,7 @@
             <plugin>
                 <artifactId>eclipselink-staticweave-maven-plugin</artifactId>
                 <groupId>au.com.alderaan</groupId>
-                <version>1.0.3</version>
+                <version>1.0.7</version>
                 <executions>
                     <execution>
                         <goals>
@@ -36,6 +36,41 @@
 -------------------------------------------------------------------------------------------------------------------
 
 ## Updates
+
+### Release 1.0.7
+
+Release 1.0.7 adds support for `persistence.xml` files located in external dependencies. If this is the case use the 
+`persistenceXMLGroupId`, `persistenceXMLArtifactId` and `persistenceXMLVersion` parameters in combination with `persistenceXMLLocation`.
+
+```
+    <plugin>
+        <artifactId>eclipselink-staticweave-maven-plugin</artifactId>
+        <groupId>au.com.alderaan</groupId>
+        <version>1.0.7</version>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>weave</goal>
+                </goals>
+                <phase>process-classes</phase>
+                <configuration>
+                    <logLevel>ALL</logLevel>
+                    <persistenceXMLLocation>META-INF/persistence.xml</persistenceXMLLocation>
+                    <persistenceXMLGroupId>my.group.id</persistenceXMLGroupId>
+                    <persistenceXMLArtifactId>artifactId</persistenceXMLArtifactId>
+                    <persistenceXMLVersion>1.0.0</persistenceXMLVersion>
+                </configuration>
+            </execution>
+        </executions>
+        <dependencies>
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>eclipselink</artifactId>
+                <version>2.3.2</version>
+            </dependency>
+        </dependencies>
+    </plugin>
+```
 
 ### Release 1.0.4
 
