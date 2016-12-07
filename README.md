@@ -8,7 +8,7 @@
             <plugin>
                 <artifactId>eclipselink-staticweave-maven-plugin</artifactId>
                 <groupId>au.com.alderaan</groupId>
-                <version>1.0.7</version>
+                <version>1.0.8</version>
                 <executions>
                     <execution>
                         <goals>
