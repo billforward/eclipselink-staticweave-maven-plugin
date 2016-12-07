@@ -19,6 +19,18 @@
     </parent>
 
     <developers>
+        <!--Before version 1.0.5-->
+        <developer>
+            <name>Craig Day</name>
+            <email>craigday@gmail.com</email>
+            <url>https://profiles.google.com/craigday</url>
+        </developer>
+        <developer>
+            <name>Tim Cole</name>
+            <email>timothy.j.cole@gmail.com</email>
+        </developer>
+
+        <!--From version 1.0.5 and forward-->
         <developer>
             <name>Lukasz Kwasek</name>
             <email>lukasz@billforward.net</email>
@@ -30,6 +42,7 @@
             <name>The Apache Software License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
+            <comments>This file was changed after 1.0.4 original release.</comments>
         </license>
     </licenses>
 
