@@ -37,6 +37,10 @@
 
 ## Updates
 
+### Release 1.0.8
+
+Release 1.0.8 switches dependency from `eclipselink:2.3.2` to `eclipse:2.5.3`. 
+
 ### Release 1.0.7
 
 Release 1.0.7 adds support for `persistence.xml` files located in external dependencies. If this is the case use the 
