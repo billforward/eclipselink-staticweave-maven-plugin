@@ -6,7 +6,7 @@
     <groupId>billforce.billing</groupId>
     <artifactId>eclipselink-staticweave-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
 
     <name>eclipselink-staticweave-maven-plugin Maven Mojo</name>
     <url>https://github.com/billforward/eclipselink-staticweave-maven-plugin/</url>
@@ -48,7 +48,7 @@
 
     <properties>
         <maven.version>2.0.9</maven.version>
-        <eclipselink.version>2.3.2</eclipselink.version>
+        <eclipselink.version>2.5.1</eclipselink.version>
         <jpa.version>2.0.0</jpa.version>
     </properties>
 
@@ -112,12 +112,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>eclipselink</id>
-            <url>http://download.eclipse.org/rt/eclipselink/maven.repo/</url>
-        </repository>
-    </repositories>
 
 </project>
